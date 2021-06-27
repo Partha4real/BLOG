@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
 function Home() {
   const classes = useStyles();
   const blogData = useSelector((state) => state.blog);
+
   const [editData, setEditDate] = React.useState({});
   const [showBlogData, setShowBlogData] = React.useState([]);
 
@@ -25,8 +26,10 @@ function Home() {
   React.useEffect(() => {
     if (userAuth?.userType === "contentWriter") {
       const blog = blogData.filter(
-        (blog) => blog.creator._id === userAuth?._id
+        (blog) =>
+          blog.creator._id === userAuth?._id || blog?.creator === userAuth?._id
       );
+      console.log("!!!!", blog);
       setShowBlogData(blog);
     } else if (userAuth?.userType === "admin") {
       setShowBlogData(blogData);

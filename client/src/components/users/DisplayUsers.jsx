@@ -8,12 +8,20 @@ import {
   CardHeader,
   Avatar,
   makeStyles,
+  CircularProgress,
 } from "@material-ui/core";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../../actions/userAction";
 
 const useStyles = makeStyles((theme) => ({
+  loading: {
+    width: "100%",
+    height: "80vh",
+    display: "flex",
+    justifyContent: "center",
+    placeItems: "center",
+  },
   card: {
     border: "3px solid #115df6",
   },
@@ -55,43 +63,61 @@ function DisplayUsers({ showUser, setEditDate, handleClick }) {
   };
 
   return (
-    <div style={{ padding: "40px 0px" }}>
-      <Grid container spacing={2}>
-        {showUser.map((item) => (
-          <Grid item xs={12} sm={4} md={3} key={item?._id}>
-            <Card
-              className={
-                item.deleteUser ? `${classes.cardDelete}` : `${classes.card}`
-              }
-            >
-              <CardHeader
-                avatar={
-                  <Avatar aria-label="recipe">{item.name.charAt(0)}</Avatar>
-                }
-                title={item.name}
-              />
-              <CardContent>
-                <Typography variant="subtitle1">EMAIL: {item.email}</Typography>
-                <Typography variant="subtitle2">
-                  PASSWORD: {item.password}
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button onClick={(e) => handleEdit(e, item)}>Edit</Button>
-                <Button
+    <>
+      {showUser.length < 1 ? (
+        <div className={classes.loading}>
+          <Typography variant="h3" color="primary">
+            LOADING
+          </Typography>
+          &emsp;
+          <CircularProgress style={{ color: "#115df6" }} />
+        </div>
+      ) : (
+        <div style={{ padding: "40px 0px" }}>
+          <Grid container spacing={2}>
+            {showUser.map((item) => (
+              <Grid item xs={12} sm={4} md={3} key={item?._id}>
+                <Card
                   className={
-                    item.deleteUser ? `${classes.btn}` : `${classes.btndelete}`
+                    item.deleteUser
+                      ? `${classes.cardDelete}`
+                      : `${classes.card}`
                   }
-                  onClick={(e) => handleDelete(e, item)}
                 >
-                  {item.deleteUser ? "Reterieve" : "Delete"}
-                </Button>
-              </CardActions>
-            </Card>
+                  <CardHeader
+                    avatar={
+                      <Avatar aria-label="recipe">{item.name.charAt(0)}</Avatar>
+                    }
+                    title={item.name}
+                  />
+                  <CardContent>
+                    <Typography variant="subtitle1">
+                      EMAIL: {item.email}
+                    </Typography>
+                    <Typography variant="subtitle2">
+                      PASSWORD: {item.password}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button onClick={(e) => handleEdit(e, item)}>Edit</Button>
+                    <Button
+                      className={
+                        item.deleteUser
+                          ? `${classes.btn}`
+                          : `${classes.btndelete}`
+                      }
+                      onClick={(e) => handleDelete(e, item)}
+                    >
+                      {item.deleteUser ? "Reterieve" : "Delete"}
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
-    </div>
+        </div>
+      )}
+    </>
   );
 }
 

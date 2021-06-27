@@ -5,7 +5,7 @@ import AddUser from "./addUser/AddUser";
 import SideDrawer from "../sideDrawer/SideDrawer";
 import DisplayUsers from "./DisplayUsers";
 import { useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   addUser: {
@@ -18,14 +18,17 @@ const useStyles = makeStyles((theme) => ({
 function Home({ userData }) {
   const classes = useStyles();
   const [editData, setEditDate] = React.useState({});
+  const history = useHistory();
 
   const userAuth = useSelector((state) => state.auth.authUser);
 
   React.useEffect(() => {
     if (userAuth?.userType !== "admin") {
-      <Redirect to="/" />;
+      let path = `/`;
+      history.push(path);
+      return;
     }
-  }, [userAuth]);
+  }, [history, userAuth]);
 
   // DRAWER
   const [showDrawer, setShowDrawer] = React.useState({ right: false });
