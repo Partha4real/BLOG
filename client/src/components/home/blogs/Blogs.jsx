@@ -43,7 +43,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Blogs({ showBlogData, userAuth, setEditDate, handleClick }) {
-  console.log(showBlogData);
   const classes = useStyles();
   const dispatch = useDispatch();
   const [itemData, setItemData] = React.useState({});
