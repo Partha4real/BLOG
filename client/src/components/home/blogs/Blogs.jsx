@@ -59,7 +59,7 @@ function Blogs({ showBlogData, userAuth, setEditDate, handleClick }) {
       setRemove({ deleteBlog: null });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [approve, remove, showBlogData]);
+  }, [approve, remove]);
 
   const handleEdit = (e, item) => {
     setEditDate(item);
